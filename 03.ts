@@ -1,5 +1,5 @@
 // target 是这个类
-function myDecotator(target: Function) {
+const myDecotator: ClassDecorator = (target: Function) => {
   // 给这个原型上添加属性和方法
   target.prototype.sex = '男'
   target.prototype.test = () => {

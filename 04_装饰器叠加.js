@@ -5,25 +5,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-// target 是这个类
-const myDecotator = (target) => {
-    // 给这个原型上添加属性和方法
-    target.prototype.sex = '男';
+const myDecorator = (target) => {
     target.prototype.test = () => {
-        return '朴睦 24';
+        console.log("我是 test");
     };
 };
-let Demo1 = class Demo1 {
+const myDecorator2 = (target) => {
+    target.prototype.test2 = () => {
+        console.log("我是 test2");
+    };
 };
-Demo1 = __decorate([
-    myDecotator
-], Demo1);
-const d1 = new Demo1();
-console.log(d1.test(), d1.sex);
-let Demo2 = class Demo2 {
+let Demo4 = class Demo4 {
 };
-Demo2 = __decorate([
-    myDecotator
-], Demo2);
-const d2 = new Demo2();
-console.log(d2.test());
+Demo4 = __decorate([
+    myDecorator,
+    myDecorator2
+], Demo4);
+const d4 = new Demo4();
+d4.test();
+d4.test2();
