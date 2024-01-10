@@ -8,29 +8,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-const ErrorDecorator = (title) => {
+const isLogin = true;
+const v = ['pm', 'ww'];
+const AccDecorator = (keys) => {
     return (target, name, desc) => {
         const method = desc.value;
+        const isV = keys.every((item) => v.includes(item));
         desc.value = () => {
-            try {
-                method();
+            if (isLogin && isV) {
+                return method();
             }
-            catch (error) {
-                console.log(`%c${title}`, `font-size: 20px`);
-                console.log(error.message);
-            }
+            console.log("我没有权限");
         };
     };
 };
-class Demo12 {
+class Demo13 {
     test() {
-        throw new Error('出错了');
+        console.log("我登录了也有权限, 我看到了内容");
+    }
+    test2() {
+        console.log("我不需要登录也可以看到内容");
     }
 }
 __decorate([
-    ErrorDecorator('https://dengwj.vip'),
+    AccDecorator(['pm', 'ww']),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], Demo12.prototype, "test", null);
-new Demo12().test();
+], Demo13.prototype, "test", null);
+new Demo13().test();
