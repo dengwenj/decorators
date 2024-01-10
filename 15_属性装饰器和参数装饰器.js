@@ -14,6 +14,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 // 属性装饰器
 const propertyDecorator = (target, name) => {
     // target 静态属性就是这个类，普通属性是原型对象
+    let val = 'pumu';
+    // https://www.thinbug.com/q/39160796
+    // 通过Object.defineProperty添加prototype属性如果用的get方法会添加到实例上，一样的会覆盖构造函数属性
+    Object.defineProperty(target, 'age', {
+        get() {
+            return 11;
+        },
+    });
+    Object.defineProperty(target, name, {
+        get() {
+            return val;
+        },
+        set(v) {
+            val = v;
+        }
+    });
     console.log(target, name);
 };
 // 参数装饰器
@@ -21,15 +37,12 @@ const paramsDecorator = (target, propertyKey, parameterIndex) => {
     console.log(target, propertyKey, parameterIndex);
 };
 class Demo15 {
-    constructor() {
-        this.name = '朴睦';
-    }
     test(name, age, sex) {
     }
 }
 __decorate([
     propertyDecorator,
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], Demo15.prototype, "name", void 0);
 __decorate([
     __param(2, paramsDecorator),
@@ -37,4 +50,7 @@ __decorate([
     __metadata("design:paramtypes", [String, Number, String]),
     __metadata("design:returntype", void 0)
 ], Demo15.prototype, "test", null);
-// new Demo15()
+const d15 = new Demo15();
+console.log(d15);
+d15.name = '22';
+console.log(d15.name);
